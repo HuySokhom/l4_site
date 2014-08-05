@@ -1,17 +1,16 @@
 <?php
-
+ 
 class DatabaseSeeder extends Seeder {
+ 
+    public function run()
+    {
+    	//Eloquent::unguard();
 
-	/**
-	 * Run the database seeds.
-	 *
-	 * @return void
-	 */
-	public function run()
-	{
-		Eloquent::unguard();
-
-		// $this->call('UserTableSeeder');
-	}
-
+        $this->call('SentrySeeder');
+        $this->command->info('Sentry tables seeded!');
+ 
+        $this->call('ContentSeeder');
+        $this->command->info('Content tables seeded!');
+    }
+ 
 }

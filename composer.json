@@ -4,12 +4,16 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
-		"laravel/framework": "4.3.*"
+		"laravel/framework": "4.3.*",
+		"cartalyst/sentry": "2.0.*",
+        "dflydev/markdown": "v1.0.2",
+        "imagine/Imagine": "v0.4.1"
 	},
 	"autoload": {
 		"classmap": [
 			"app/commands",
 			"app/controllers",
+			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/src",

@@ -18,7 +18,10 @@
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/src",
-			"app/tests/TestCase.php"
+			"app/tests/TestCase.php",
+			"app/services",
+			"public/site",
+			"app/facades"
 		]
 	},
 	"scripts": {

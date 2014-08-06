@@ -3,6 +3,12 @@
 @section('main')
  
         <h2>Edit page</h2>
+        {{ Notification::showAll() }} 
+        @if ($errors->any())
+                <div class="alert alert-error">
+                        {{ implode('<br>', $errors->all()) }}
+                </div>
+        @endif
  
         {{ Form::model($page, array('method' => 'put', 'route' => array('admin.pages.update', $page->id))) }}
  

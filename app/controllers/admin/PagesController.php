@@ -2,6 +2,7 @@
  
 use App\Models\Page;
 use Input, Redirect, Sentry, Str;
+use Notification;
  
 class PagesController extends \BaseController {
  
@@ -39,14 +40,23 @@ class PagesController extends \BaseController {
  
         public function update($id)
         {
-                $page = Page::find($id);
-                $page->title = Input::get('title');
-                $page->slug = Str::slug(Input::get('title'));
-                $page->body = Input::get('body');
-                $page->user_id = Sentry::getUser()->id;
-                $page->save();
+                // $validation = new PageValidator;
  
-                return Redirect::route('admin.pages.edit', $page->id);
+                // if ($validation->passes())
+                // {
+                        $page = Page::find($id);
+                        $page->title = Input::get('title');
+                        $page->slug = Str::slug(Input::get('title'));
+                        $page->body = Input::get('body');
+                        $page->user_id = Sentry::getUser()->id;
+                        $page->save();
+ 
+                        Notification::success('The page was saved.');
+ 
+                        return Redirect::route('admin.pages.edit', $page->id);
+                // }
+ 
+                // return Redirect::back()->withInput()->withErrors($validation->errors);
         }
  
         public function destroy($id)

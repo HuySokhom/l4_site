@@ -7,7 +7,7 @@ class Article extends \Eloquent {
  
     public function author()
     {
-        return $this->belongsTo('User');
+        return $this->belongsTo('User', 'user_id');
     }
  
 }

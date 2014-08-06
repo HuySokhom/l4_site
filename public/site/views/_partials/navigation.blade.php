@@ -1,8 +1,8 @@
 <nav>
     <ul>
-        <li><a href=&quot;{{ URL::route('home') }}&quot;>Home</a></li>
-        <li><a href=&quot;{{ URL::route('page', 'about-us') }}&quot;>About us</a></li>
-        <li><a href=&quot;{{ URL::route('article.list') }}&quot;>Blog</a></li>
-        <li><a href=&quot;{{ URL::route('page', 'contact') }}&quot;>Contact</a></li>
+        <li><a href="{{ URL::route('home') }}">Home</a></li>
+        <li><a href="{{ URL::route('page', 'about-us') }}">About us</a></li>
+        <li><a href="{{ URL::route('article.list') }}">Blog</a></li>
+        <li><a href="{{ URL::route('page', 'contact') }}">Contact</a></li>
     </ul>
 </nav>

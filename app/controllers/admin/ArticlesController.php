@@ -33,12 +33,19 @@ class ArticlesController extends \BaseController {
             $article->body    = Input::get('body');
             $article->user_id = Sentry::getUser()->id;
             $article->save();
- 
+     
+            // Now that we have the article ID we need to move the image
+            if (Input::hasFile('image'))
+            {
+                $article->image = Image::upload(Input::file('image'), 'articles/' . $article->id);
+                $article->save();
+            }
+     
             Notification::success('The article was saved.');
- 
+     
             return Redirect::route('admin.articles.edit', $article->id);
         }
- 
+     
         return Redirect::back()->withInput()->withErrors($validation->errors);
     }
  
@@ -58,13 +65,14 @@ class ArticlesController extends \BaseController {
             $article->slug    = Str::slug(Input::get('title'));
             $article->body    = Input::get('body');
             $article->user_id = Sentry::getUser()->id;
+            if (Input::hasFile('image')) $article->image   = Image::upload(Input::file('image'), 'articles/' . $article->id);
             $article->save();
- 
+     
             Notification::success('The article was saved.');
- 
+     
             return Redirect::route('admin.articles.edit', $article->id);
         }
- 
+     
         return Redirect::back()->withInput()->withErrors($validation->errors);
     }
  

@@ -24,6 +24,9 @@ class ArtisanServiceProvider extends ServiceProvider {
 		$this->registerInspireCommand();
 
 		$this->commands('commands.inspire');
+		$this->commands('commands.app:refresh');
+		$this->commands('commands.app:install');
+		$this->commands('commands.app:seed');
 	}
 
 	/**
@@ -39,6 +42,21 @@ class ArtisanServiceProvider extends ServiceProvider {
 		$this->app->bindShared('commands.inspire', function()
 		{
 			return new InspireCommand;
+		});
+
+		$this->app->bindShared('commands.app:refresh', function()
+		{
+			return new AppRefreshCommand;
+		});
+
+		$this->app->bindShared('commands.app:install', function()
+		{
+			return new AppInstallCommand;
+		});
+
+		$this->app->bindShared('commands.app:seed', function()
+		{
+			return new AppSeedCommand;
 		});
 	}
 

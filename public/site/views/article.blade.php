@@ -14,5 +14,8 @@
  
     <a href="{{ route('article.list') }}">&laquo; Back to articles</a>
 </article>
+<input type="hidden" id="article_id" name="article_id" value="{{$entry->id}}">
+
+@include('site::comments')
  
 @include('site::_partials/footer')

@@ -88,4 +88,8 @@ class Image {
             if ($uploaded) return $path;
         }
     } 
+
+    public function hi(){
+        return 'you';
+    }
 }

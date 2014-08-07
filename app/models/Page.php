@@ -3,7 +3,7 @@
 class Page extends \Eloquent {
  
     protected $table = 'pages';
-    protected $fillable = ['title'];
+    protected $fillable = ['title','slug', 'body', 'user_id'];
  
     public function author()
     {

@@ -1,4 +1,10 @@
 <?php
+
+Route::group(array('prefix' => 'api'), function() 
+{
+	Route::resource('comments', 'App\Controllers\Admin\CommentController');
+});
+
 // Home page
 Route::get('/', array('as' => 'home', function()
 {
@@ -32,7 +38,7 @@ Route::get('{slug}', array('as' => 'page', function($slug)
  
 }))->where('slug', '^((?!admin).)*$');
  
-// 404 Page
+//404 Page
 App::missing(function($exception)
 {
     return Response::view('site::404', array(), 404);

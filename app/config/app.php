@@ -102,6 +102,7 @@ return array(
 		'ArtisanServiceProvider',
 		'ErrorServiceProvider',
 		'LogServiceProvider',
+		'ImageServiceProvider',
 
 		/*
 		 * Laravel Framework Service Providers...

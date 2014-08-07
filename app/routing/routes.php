@@ -35,3 +35,4 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth.admin'), function()
         Route::resource('pages', 'App\Controllers\Admin\PagesController');
 
 });
+

@@ -3,7 +3,7 @@
 class Article extends \Eloquent {
  
     protected $table = 'articles';
-    protected $fillable = ['title'];
+    protected $fillable = ['title','image'];
  
     public function author()
     {

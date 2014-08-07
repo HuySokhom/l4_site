@@ -1,6 +1,7 @@
 <?php namespace App\Controllers\Admin;
  
 use App\Models\Article;
+//use \App\Services\Image;
 use App\Services\Validators\ArticleValidator;
 use Input, Notification, Redirect, Sentry, Str;
  
@@ -26,7 +27,7 @@ class ArticlesController extends \BaseController {
         $validation = new ArticleValidator;
  
         if ($validation->passes())
-        {
+        {           
             $article = new Article;
             $article->title   = Input::get('title');
             $article->slug    = Str::slug(Input::get('title'));
@@ -34,9 +35,11 @@ class ArticlesController extends \BaseController {
             $article->user_id = Sentry::getUser()->id;
             $article->save();
      
+
             // Now that we have the article ID we need to move the image
             if (Input::hasFile('image'))
             {
+                //$img = new Image;
                 $article->image = Image::upload(Input::file('image'), 'articles/' . $article->id);
                 $article->save();
             }

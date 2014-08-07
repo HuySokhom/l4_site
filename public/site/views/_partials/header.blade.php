@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Laravel 4 Tutorial</title>
+    {{HTML::style('site/assets/css/main.css')}}
 </head>
 <body>
 <div id="layout">

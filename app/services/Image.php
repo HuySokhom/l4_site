@@ -33,7 +33,7 @@ class Image {
  
             if ( ! $height) $height = $width;
  
-            $quality = ($quality) ? $quality : $this-&gt;quality;
+            $quality = ($quality) ? $quality : $this->quality;
  
             $fileName       = $info['basename'];
             $sourceDirPath  = public_path() . $info['dirname'];
@@ -55,7 +55,7 @@ class Image {
                 {
                     $this->imagine->open($sourceFilePath)
                                   ->thumbnail($size, $mode)
-                                  ->save($targetFilePath, array('quality' =&gt; $quality));
+                                  ->save($targetFilePath, array('quality' => $quality));
                 }
             }
             catch (\Exception $e)
@@ -87,6 +87,5 @@ class Image {
  
             if ($uploaded) return $path;
         }
-    }
- 
+    } 
 }

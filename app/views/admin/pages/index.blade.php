@@ -28,5 +28,4 @@
                         @endforeach
                 </tbody>
         </table>
-        {{ HTML::script('assets/js/script.js') }}
 @stop

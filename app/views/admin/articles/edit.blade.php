@@ -1,3 +1,6 @@
+@extends('admin._layouts.default')
+ 
+@section('main')
 <div class="control-group">
     {{ Form::label('image', 'Image') }}
  
@@ -15,3 +18,4 @@
         </div>
     </div>
 </div>
+@stop

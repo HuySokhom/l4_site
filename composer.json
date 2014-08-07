@@ -20,8 +20,8 @@
 			"app/src",
 			"app/tests/TestCase.php",
 			"app/services",
-			"public/site",
-			"app/facades"
+			"app/facades",
+			"public/site"
 		]
 	},
 	"scripts": {

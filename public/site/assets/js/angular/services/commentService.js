@@ -4,8 +4,8 @@ angular.module('commentService', [])
 
 		return {
 			// get all the comments
-			get : function(article_id) {
-				return $http.get('/api/comments/' + article_id);
+			get : function() {
+				return $http.get('/api/comments/' + $('#article_id').val());
 			},
 
 			// save a comment (pass in comment data)

@@ -30,10 +30,10 @@
 			<div class="comment" ng-hide="loading" ng-repeat="comment in comments">
 				<h3>Comment #{{ comment.id }} <small>by {{ comment.author }}</h3>
 				<p>{{ comment.text }}<br>
-				<input type="text" placeholder="Edit comment..."></p>
+				<input type="text" id="comment-edit-{{ comment.id }}" placeholder="Edit comment..."></p>
 
 				<p><a href="#" ng-click="deleteComment(comment.id)" class="text-muted">Delete</a>&nbsp;
-				<a href="#" ng-click="EditComment(comment.id, 'i love you')" class="text-muted">Edit</a>
+				<a href="#" ng-click="EditComment(comment.id, 'comment-edit-')" class="text-muted">Edit</a>
 				</p>
 
 			</div>					

@@ -61,5 +61,7 @@ class CommentController extends \BaseController {
 	public function show($id)
     {
         return Comment::where('article_id', $id)->get();
+        
+        return ['success' => true];
     }
 }

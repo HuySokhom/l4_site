@@ -11,7 +11,7 @@ angular.module('mainCtrl', [])
 		// get all the comments first and bind it to the $scope.comments object
 		// use the function we created in our service
 		// GET ALL COMMENTS ====================================================
-		Comment.get($('#article_id').val())
+		Comment.get()
 			.success(function(data) {
 				$scope.comments = data;
 				$scope.loading = false;
@@ -60,12 +60,11 @@ angular.module('mainCtrl', [])
 		};
 
 		// function to handle editing a comment
-		$scope.EditComment = function(id, text) {
+		$scope.EditComment = function(id, text_box_name) {
 			$scope.loading = true; 
 
-				console.log( $(this));
 			// use the function we created in our service
-			Comment.update(id, text)
+			Comment.update(id, $('#' + text_box_name + id).val())
 				.success(function(data) {
 
 					// if successful, we'll need to refresh the comment list

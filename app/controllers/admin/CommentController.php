@@ -52,16 +52,14 @@ class CommentController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
+		$article = Comment::find($id)->article;
 		Comment::destroy($id);
-
-		return ['success' => true];
+		return $article;
 	}
 
 
 	public function show($id)
     {
         return Comment::where('article_id', $id)->get();
-        
-        return ['success' => true];
     }
 }

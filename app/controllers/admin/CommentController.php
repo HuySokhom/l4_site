@@ -24,13 +24,13 @@ class CommentController extends \BaseController {
 	 */
 	public function store()
 	{
-		Comment::create(array(
+		$comment = Comment::create(array(
 			'author' => Input::get('author'),
 			'text' => Input::get('text'),
 			'article_id' => Input::get('article_id')
 		));
 
-		return ['success' => true];
+		return $comment;
 	}
 
 	// Update comment.

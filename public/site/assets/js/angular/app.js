@@ -11,6 +11,12 @@ angular.module('commentApp', [])
 		var Comments = function(article_id){
 			this.elements = [];
 			this.article_id = article_id;
+
+			this.new_comment = {
+				author 		: '',
+				text 		: '',
+				article_id 	: this.article_id
+			};
 		};
 
 		Comments.prototype.getElements = function(elements){
@@ -41,10 +47,20 @@ angular.module('commentApp', [])
 						});
 		};
 
-		Comments.prototype.createElement = function(comment){
-			comment.create().then(function(){
-				this.populate(comment);
-			});
+		Comments.prototype.createElement = function(){
+			var self = this;
+			return $http({
+						method: 'POST',
+						url: '/api/comments',
+						headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
+						data: $.param(this.new_comment)
+					}).then(function(response){
+						var element = response.data;
+						if(element !== null){
+							self.populate(element);
+						}
+					});
+
 
 			// and then(function({ this.elements.push(commentObj..
 
@@ -98,21 +114,6 @@ angular.module('commentApp', [])
 					url: '/api/comments/' + this.id,
 					headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
 					data: $.param(this.draft)
-				});
-		};
-
-		Comment.prototype.create = function(){		
-			var data = {
-				author 		: this.author,
-				text 		: this.text,
-				article_id 	: this.article_id
-			};
-
-			return $http({
-					method: 'POST',
-					url: '/api/comments',
-					headers: { 'Content-Type' : 'application/x-www-form-urlencoded' },
-					data: $.param(data)
 				});
 		};
 

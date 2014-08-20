@@ -2,13 +2,13 @@
 	<div class="col-md-8 col-md-offset-2">
 		<form>
 			<div class="form-group">
-				<input type="text" class="form-control input-sm" name="author" ng-model="commentData.author" placeholder="Name">
+				<input type="text" class="form-control input-sm" name="author" ng-model="comments.new_comment.author" placeholder="Name">
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control input-lg" name="comment" ng-model="commentData.text" placeholder="Say what you have to say">
+				<input type="text" class="form-control input-lg" name="comment" ng-model="comments.new_comment.text" placeholder="Say what you have to say">
 			</div>
 			<div class="form-group text-right">	
-				<button type="submit" class="btn btn-primary btn-lg" ng-click="comments.createElement(commentData)">Submit</button>
+				<button type="submit" class="btn btn-primary btn-lg" ng-click="comments.createElement()">Submit</button>
 			</div>
 
 

@@ -1,16 +1,17 @@
 angular.module('commentApp', [])
 	
-	.controller('mainController', function($scope, Comments, Comment) {
-		$scope.comments = new Comments(1);
-
+	.controller('mainController', function($scope, $location, Comments, Comment) {
+		var arr_location = $location.absUrl().split('/');		
+		$scope.comments = new Comments(arr_location[arr_location.length - 1]);
 		$scope.comments.load();
  	})
 
 	.factory('Comments', function($http, Comment){
 
-		var Comments = function(article_id){
+		var Comments = function(slug){
 			this.elements = [];
-			this.article_id = article_id;
+			this.slug = slug;
+			this.article_id = null;
 
 			this.new_comment = {
 				author 		: '',
@@ -38,7 +39,7 @@ angular.module('commentApp', [])
 
 		Comments.prototype.load = function() {
 			var self = this;
-			return $http.get('/api/comments/' + self.article_id)
+			return $http.get('/api/comments/' + self.slug)
 						.then(function(response){
 							var data = response.data;
 							data.forEach(function (element) {	
@@ -59,12 +60,7 @@ angular.module('commentApp', [])
 						if(element !== null){
 							self.populate(element);
 						}
-					});
-
-
-			// and then(function({ this.elements.push(commentObj..
-
-			// eg: comment.create().then(function(){this.elements.push(comment..	
+					});	
 		};
 
 		Comments.prototype.deleteElement = function(comment){

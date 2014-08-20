@@ -9,5 +9,10 @@ class Article extends \Eloquent {
     {
         return $this->belongsTo('User', 'user_id');
     }
+
+    public function comments()
+    {
+    	return $this->hasMany('Comment', 'article_id');
+    }
  
 }

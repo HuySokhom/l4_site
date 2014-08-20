@@ -49,5 +49,4 @@ class User extends \Cartalyst\Sentry\Users\Eloquent\User implements UserInterfac
 	{
 		return $this->email;
 	}
-
 }

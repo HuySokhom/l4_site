@@ -13,7 +13,7 @@ return array(
 	|
 	*/
 
-	'debug' => false,
+	'debug' => true,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -209,6 +209,7 @@ return array(
 		'Article'         => 'App\Models\Article',
 		'Page'            => 'App\Models\Page',
 		'Image'           => 'App\Facades\ImageFacade',
+		'Comment' 		  => 'App\Models\Comment',
 
 	),
 

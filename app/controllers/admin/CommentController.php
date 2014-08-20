@@ -2,6 +2,7 @@
 
 use App\Models\Comment;
 use App\Models\Article;
+use App\Models\User;
 use Input, Notification, Redirect, Sentry, Str;
 
 class CommentController extends \BaseController {
@@ -58,8 +59,9 @@ class CommentController extends \BaseController {
 	}
 
 
-	public function show($id)
-    {
-        return Comment::where('article_id', $id)->get();
+	public function show($slug)
+    {    	
+    	$comment = Article::where('slug', $slug)->first()->comments();
+        return $comment->get();
     }
 }

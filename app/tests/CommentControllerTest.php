@@ -78,7 +78,9 @@ class CommentControllerTest extends TestCase
 
 	    $response = $this->call('DELETE', '/api/comments/' .  $before_delete_record[0]->id);
 
-    	$this->assertCount(count($before_delete_record) - 1, json_decode($response));
+	    $after_delete_record =  json_decode(Article::where('slug', $this->slug)->first()->comments()->get());
+
+    	$this->assertCount(count($before_delete_record) - 1, $after_delete_record);
 
     }
 }

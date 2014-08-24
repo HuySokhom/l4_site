@@ -26,14 +26,14 @@ class CommentController extends \BaseController
 	public function store()
 	{	
 		$new_comment = [
-			'author' => Input::get('author'),
-			'text' => Input::get('text'),
-			'article_id' => Input::get('article_id')
+			'author' => htmlentities(Input::get('author')),
+			'text' => htmlentities(Input::get('text')),
+			'article_id' => htmlentities(Input::get('article_id'))
 		];
 
 		if(in_array('', $new_comment))
 		{
-			throw new \PDOException('400, Invalid Data Format for Comment');
+			throw new \PDOException('Invalid Data Format for Comment', 400);
 		}
 
 		return Comment::create($new_comment);;
@@ -42,11 +42,15 @@ class CommentController extends \BaseController
 	// Update comment.
 	public function update($id)
     {
-        $comment = Comment::find($id);
-        $comment->text = Input::get('text');
+        if(!$comment = Comment::find($id))
+        {
+        	\App::abort(404, "Fail to update. Comment doesn't exist.");
+        }
+
+        $comment->text = htmlentities(Input::get('text'));
         $comment->save();
 
-        return ['success' => true];
+        return $comment;
     }
 
 
@@ -60,11 +64,11 @@ class CommentController extends \BaseController
 	{
 		if(!$comment = Comment::find($id))
 		{			
-			throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException("Delete was failed. Comment doesn't exist.");
+			\App::abort(404, "Delete was failed. Comment doesn't exist.");	
 		}
 
 		Comment::destroy($id);
-		return $comment->article;
+		return $comment;
 	}
 
 
@@ -72,7 +76,7 @@ class CommentController extends \BaseController
     {    
     	if (!$article = Article::where('slug', $slug)->first()) 
 		{
-			throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('404, Comments not found');
+			\App::abort(404, 'Comments not found');			
 		}
 
     	$comment = $article->comments();

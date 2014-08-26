@@ -1,0 +1,29 @@
+{
+    "name": "illuminate/log",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.3.*",
+        "monolog/monolog": "~1.6"
+    },
+    "require-dev": {
+        "illuminate/events": "4.3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\Log\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.3-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

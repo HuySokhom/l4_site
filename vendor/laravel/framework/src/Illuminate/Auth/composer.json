@@ -1,0 +1,36 @@
+{
+    "name": "illuminate/auth",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Taylor Otwell",
+            "email": "taylorotwell@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/cookie": "4.3.*",
+        "illuminate/encryption": "4.3.*",
+        "illuminate/events": "4.3.*",
+        "illuminate/hashing": "4.3.*",
+        "illuminate/http": "4.3.*",
+        "illuminate/session": "4.3.*",
+        "illuminate/support": "4.3.*",
+        "nesbot/carbon": "~1.0"
+    },
+    "require-dev": {
+        "illuminate/console": "4.3.*",
+        "illuminate/routing": "4.3.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Illuminate\\Auth\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.3-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

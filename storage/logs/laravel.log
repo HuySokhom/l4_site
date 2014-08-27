@@ -20757,3 +20757,23 @@ Stack trace:
 #9 /var/www/l4_site/bootstrap/compiled.php(646): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
 #10 /var/www/l4_site/public/index.php(49): Illuminate\Foundation\Application->run()
 #11 {main} [] []
+[2014-08-27 05:49:51] production.ERROR: exception 'PDOException' with message 'Invalid Data Format for Comment' in /var/www/l4_site/app/controllers/admin/CommentController.php:41
+Stack trace:
+#0 [internal function]: App\Controllers\Admin\CommentController->store()
+#1 /var/www/l4_site/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(231): call_user_func_array(Array, Array)
+#2 /var/www/l4_site/bootstrap/compiled.php(6019): Illuminate\Routing\Controller->callAction('store', Array)
+#3 /var/www/l4_site/bootstrap/compiled.php(6007): Illuminate\Routing\ControllerDispatcher->call(Object(App\Controllers\Admin\CommentController), Object(Illuminate\Routing\Route), 'store')
+#4 /var/www/l4_site/bootstrap/compiled.php(5549): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Controllers...', 'store')
+#5 /var/www/l4_site/bootstrap/compiled.php(5538): Illuminate\Routing\Route->dispatchToController(Object(Illuminate\Http\Request), Object(Illuminate\Routing\ControllerDispatcher))
+#6 /var/www/l4_site/bootstrap/compiled.php(5187): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request), Object(Illuminate\Routing\ControllerDispatcher))
+#7 /var/www/l4_site/bootstrap/compiled.php(5175): Illuminate\Routing\Router->dispatchToRoute(Object(Illuminate\Http\Request))
+#8 /var/www/l4_site/bootstrap/compiled.php(702): Illuminate\Routing\Router->dispatch(Object(Illuminate\Http\Request))
+#9 /var/www/l4_site/bootstrap/compiled.php(689): Illuminate\Foundation\Application->dispatch(Object(Illuminate\Http\Request))
+#10 /var/www/l4_site/bootstrap/compiled.php(7936): Illuminate\Foundation\Application->handle(Object(Illuminate\Http\Request), 1, true)
+#11 /var/www/l4_site/bootstrap/compiled.php(8539): Illuminate\Session\Middleware->handle(Object(Illuminate\Http\Request), 1, true)
+#12 /var/www/l4_site/bootstrap/compiled.php(8486): Illuminate\Cookie\Queue->handle(Object(Illuminate\Http\Request), 1, true)
+#13 /var/www/l4_site/bootstrap/compiled.php(11130): Illuminate\Cookie\Guard->handle(Object(Illuminate\Http\Request), 1, true)
+#14 /var/www/l4_site/bootstrap/compiled.php(646): Stack\StackedHttpKernel->handle(Object(Illuminate\Http\Request))
+#15 /var/www/l4_site/public/index.php(49): Illuminate\Foundation\Application->run()
+#16 /var/www/l4_site/server.php(19): require_once('/var/www/l4_sit...')
+#17 {main} [] []

@@ -59,9 +59,15 @@ angular.module('commentApp', [])
 						data: $.param(this.new_comment)
 					}).then(function(response){
 						var element = response.data;
+						
+						// Add new comment to the collection.
 						if(element !== null){
 							self.populate(element);
-						}
+						}						
+						
+						// Clear new comment object.
+						self.new_comment.author = '';
+						self.new_comment.text 	= '';
 					});	
 		};
 

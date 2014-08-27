@@ -24,13 +24,20 @@ class CommentController extends \BaseController
 	 * @return Response
 	 */
 	public function store()
-	{	 
+	{	
+		// Check if the article exist.
+		if(!$article_id = Article::where('slug', Input::get('article_slug'))->first()->id) 
+		{
+			\App::abort(404, "Fail to create comment.\n Article ID doesn't exist.");
+		}
+		
 		$new_comment = [
 			'author' => htmlentities(Input::get('author')),
 			'text' => htmlentities(Input::get('text')),
-			'article_id' => htmlentities(Article::where('slug', Input::get('article_slug'))->first()->id)
+			'article_id' => htmlentities($article_id)
 		];
-
+		
+		// Check if the comment format is correct.
 		if(in_array('', $new_comment))
 		{
 			throw new \PDOException('Invalid Data Format for Comment', 400);
@@ -39,9 +46,15 @@ class CommentController extends \BaseController
 		return Comment::create($new_comment);;
 	}
 
-	// Update comment.
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
 	public function update($id)
     {
+    	// Check if the comment exist.
         if(!$comment = Comment::find($id))
         {
         	\App::abort(404, "Fail to update. Comment doesn't exist.");
@@ -62,6 +75,7 @@ class CommentController extends \BaseController
 	 */
 	public function destroy($id)
 	{
+		// Check if the comment exist.
 		if(!$comment = Comment::find($id))
 		{			
 			\App::abort(404, "Delete was failed. Comment doesn't exist.");	
@@ -73,7 +87,8 @@ class CommentController extends \BaseController
 
 
 	public function show($slug)
-    {    
+    {   
+    	// Check if the article exist.
     	if (!$article = Article::where('slug', $slug)->first()) 
 		{
 			\App::abort(404, 'Comments not found');			

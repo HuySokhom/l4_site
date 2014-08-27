@@ -12,7 +12,7 @@ class CommentControllerTest extends TestCase
     {
     	parent::setUp();
 
-    	$this->article_slug = 'bla-bla';
+    	$this->article_slug = 'third-post';
 
         $this->fetch = new CommentController;
     }
@@ -55,7 +55,7 @@ class CommentControllerTest extends TestCase
         $error_new_comment = [
             'author' => '',
             'text'  => '',
-            'article_id' => null
+            'article_slug' => $this->article_slug
         ];
 
     	$this->call('POST', '/api/comments', $error_new_comment);
@@ -66,7 +66,7 @@ class CommentControllerTest extends TestCase
         $new_comment = [
             'author' => 'author',
             'text'  => 'Testing comment',
-            'article_id' => 4
+            'article_slug' => $this->article_slug
         ];
 
         $this->call('POST', '/api/comments', $new_comment);
@@ -77,15 +77,14 @@ class CommentControllerTest extends TestCase
         $new_comment = [
             'author' => '<b>author</b>',
             'text'  => '<script> Testing comment</script>',
-            'article_id' => 4
+            'article_slug' => $this->article_slug
         ];
 
         $response = $this->call('POST', '/api/comments', $new_comment);
         $comments = json_decode(json_encode($response), true)['original'];
         
-    	$this->assertTrue($comments['author'] === htmlentities($comments['author']), 'Author');
-    	$this->assertTrue($comments['text'] === htmlentities($comments['text']), 'Text');
-    	$this->assertTrue($comments['article_id'] === htmlentities($comments['article_id']), 'Article ID');
+    	$this->assertTrue($comments['author'] === htmlentities($new_comment['author']), 'Author');
+    	$this->assertTrue($comments['text'] === htmlentities($new_comment['text']), 'Text');
     }
 
     public function testHtmlTagIsNotStrippedWhenCreateComment()
@@ -93,15 +92,14 @@ class CommentControllerTest extends TestCase
         $new_comment = [
             'author' => '<b>bonnak</b>',
             'text'  => '<script> hi there </script>',
-            'article_id' => 4
+            'article_slug' => $this->article_slug
         ];
 
         $response = $this->call('POST', '/api/comments', $new_comment);
         $comments = json_decode(json_encode($response), true)['original'];
         
-        $this->assertFalse($comments['author'] === htmlentities($comments['author']), 'Author');
-        $this->assertFalse($comments['text'] === htmlentities($comments['text']), 'Text');
-        $this->assertFalse($comments['article_id'] === htmlentities($comments['article_id']), 'Article ID');
+        $this->assertFalse($comments['author'] === htmlentities($new_comment['author']), 'Author');
+        $this->assertFalse($comments['text'] === htmlentities($new_comment['text']), 'Text');
     }
 
     public function testIfDeletedCommentIdIsValid()
@@ -131,7 +129,7 @@ class CommentControllerTest extends TestCase
         $this->assertFalse($deleted_comments['id'] === $comments[count($comments) - 1]['id'], 'Test if deleted comment is wrong.');
     }
 
-    public function testAterDeleteCommentTotalRecordShouldBeLessthanItWas()
+    public function testAtferDeleteCommentTotalRecordShouldBeLessthanItWas()
     {
          // Load comments before deleted.
         $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];

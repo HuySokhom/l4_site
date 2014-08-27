@@ -1,0 +1,33 @@
+ 
+<?php $__env->startSection('main'); ?>
+ 
+        <table class="table table-striped">
+                <thead>
+                        <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>When</th>
+                                <th><i class="icon-cog"></i></th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <?php foreach($pages as $page): ?>
+                                <tr>
+                                        <td><?php echo $page->id; ?></td>
+                                        <td><a href="<?php echo URL::route('admin.pages.show', $page->id); ?>"><?php echo $page->title; ?></a></td>
+                                        <td><?php echo $page->created_at; ?></td>
+                                        <td>
+                                                <a href="<?php echo URL::route('admin.pages.edit', $page->id); ?>" class="btn btn-success btn-mini pull-left">Edit</a>
+ 
+                                                <?php echo Form::open(array('route' => array('admin.pages.destroy', $page->id), 'method' => 'delete', 'data-confirm' => 'Are you sure?')); ?>
+
+                                                      <button type="submit" href="<?php echo URL::route('admin.pages.destroy', $page->id); ?>" class="btn btn-danger btn-mini">Delete</button>
+                                                <?php echo Form::close(); ?>
+
+                                        </td>
+                                </tr>
+                        <?php endforeach; ?>
+                </tbody>
+        </table>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

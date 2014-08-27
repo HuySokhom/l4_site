@@ -14,9 +14,9 @@ angular.module('commentApp', [])
 			this.article_id = null;
 
 			this.new_comment = {
-				author 		: '',
-				text 		: '',
-				article_id 	: this.article_id
+				author 			: '',
+				text 			: '',
+				article_slug 	: slug
 			};
 		};
 
@@ -42,9 +42,11 @@ angular.module('commentApp', [])
 			return $http.get('/api/comments/' + self.slug)
 						.then(function(response){
 							var data = response.data;
+							
+							// Populate all comments to the collection.
 							data.forEach(function (element) {	
 								self.populate(element);
-							});		
+							});						
 						});
 		};
 

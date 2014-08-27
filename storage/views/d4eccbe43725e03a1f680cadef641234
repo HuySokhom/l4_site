@@ -1,0 +1,24 @@
+<?php echo $__env->make('site::_partials/header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+ 
+<h2>Articles</h2>
+ 
+<hr>
+ 
+<ul class="articles">
+    <?php foreach($entries as $entry): ?>
+        <li>
+            <article>
+                <?php if($entry->image): ?>
+                    <figure><a href="<?php echo route('article', $entry->slug); ?>"><img src="<?php echo Image::thumb($entry->image, 150); ?>" alt=""></a></figure>
+                <?php endif; ?>
+ 
+                <h3><a href="<?php echo route('article', $entry->slug); ?>"><?php echo $entry->title; ?></a></h3>
+                <h5>Created at <?php echo $entry->created_at; ?> &bull; by <?php echo $entry->author->email; ?></h5>
+                <p><?php echo Str::limit($entry->body, 100); ?></p>
+                <p><a href="<?php echo route('article', $entry->slug); ?>" class="more">Read more</a></p>
+            </article>
+        </li>
+    <?php endforeach; ?>
+</ul>
+ 
+<?php echo $__env->make('site::_partials/footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

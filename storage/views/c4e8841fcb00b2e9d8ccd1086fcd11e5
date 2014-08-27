@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <title>L4 Site</title>
+        <?php echo HTML::style('site/assets/css/jasny-bootstrap.css'); ?>
+
+        <?php echo HTML::style('site/assets/css/jasny-bootstrap.min.css'); ?>        
+        <?php echo HTML::style('site/assets/css/main.css'); ?>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <?php echo HTML::script('site/assets/js/script.js'); ?>       
+        <?php echo HTML::script('site/assets/js/jasny-bootstrap.min.js'); ?>
+
+        <?php echo HTML::script('site/assets/js/jasny-bootstrap.js'); ?>
+
+</head>
+<body>
+<div class="container">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+                <div class="container">
+                        <a class="brand" href="<?php echo URL::route('admin.pages.index'); ?>">L4 Site</a>
+                </div>
+        </div>
+</div>
+ 
+<hr>
+ 
+        <?php echo $__env->yieldContent('main'); ?>
+</div>
+</body>
+</html>

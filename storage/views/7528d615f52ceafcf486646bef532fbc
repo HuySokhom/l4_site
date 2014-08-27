@@ -1,0 +1,17 @@
+ 
+<?php $__env->startSection('main'); ?>
+    <h2>Display article</h2>
+ 
+    <hr>
+ 
+    <h3><?php echo $article->title; ?></h3>
+    <h5><?php echo $article->created_at; ?></h5>
+    <?php echo $article->body; ?>
+
+ 
+    <?php if($article->image): ?>
+        <hr>
+        <figure><img src="<?php echo Image::resize($article->image, 800, 600); ?>" alt=""></figure>
+    <?php endif; ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

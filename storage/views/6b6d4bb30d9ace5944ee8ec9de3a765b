@@ -1,0 +1,22 @@
+ 
+<?php $__env->startSection('main'); ?>
+<div class="control-group">
+    <?php echo Form::label('image', 'Image'); ?>
+
+ 
+    <div class="fileupload fileupload-new" data-provides="fileupload">
+        <div class="fileupload-preview thumbnail" style="width: 200px; height: 150px;">
+            <?php if($article->image): ?>
+                <a href="<?php echo $article->image; ?>"><img src="<?php echo Image::resize($article->image, 200, 150); ?>" alt=""></a>
+            <?php else: ?>
+                <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image">
+            <?php endif; ?>
+        </div>
+        <div>
+            <span class="btn btn-file"><span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span><?php echo Form::file('image'); ?></span>
+            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

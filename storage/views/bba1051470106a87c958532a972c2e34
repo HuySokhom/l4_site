@@ -1,0 +1,35 @@
+ 
+<?php $__env->startSection('main'); ?>
+ 
+        <table class="table table-striped">
+                <thead>
+                        <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>When</th>
+                                <th><i class="icon-cog"></i></th>
+                        </tr>
+                </thead>
+                <tbody>
+                        <?php foreach($articles as $article): ?>
+                                <tr>
+                                        <td><?php echo $article->id; ?></td>
+                                        <td><a href="<?php echo URL::route('admin.articles.show', $article->id); ?>"><?php echo $article->title; ?></a></td>
+                                        <td><?php echo $article->created_at; ?></td>
+                                        <td>
+                                                <a href="<?php echo URL::route('admin.articles.edit', $article->id); ?>" class="btn btn-success btn-mini pull-left">Edit</a>
+ 
+                                                <?php echo Form::open(array('route' => array('admin.articles.destroy', $article->id), 'method' => 'delete', 'data-confirm' => 'Are you sure?')); ?>
+
+                                                      <button type="submit" href="<?php echo URL::route('admin.articles.destroy', $article->id); ?>" class="btn btn-danger btn-mini">Delete</button>
+                                                <?php echo Form::close(); ?>
+
+                                        </td>
+                                </tr>
+                        <?php endforeach; ?>
+                </tbody>
+        </table>
+        <?php echo HTML::script('assets/js/script.js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

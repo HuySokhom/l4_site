@@ -1,0 +1,9 @@
+<?php echo $__env->make('site::_partials/header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+ 
+<article>
+    <h2><?php echo $entry->title; ?></h2>
+    <?php echo $entry->body; ?>
+
+</article>
+ 
+<?php echo $__env->make('site::_partials/footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

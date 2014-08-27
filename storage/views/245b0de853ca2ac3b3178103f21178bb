@@ -1,0 +1,44 @@
+ 
+<?php $__env->startSection('main'); ?>
+ 
+        <h2>Edit page</h2>
+        <?php echo Notification::showAll(); ?> 
+        <?php if($errors->any()): ?>
+                <div class="alert alert-error">
+                        <?php echo implode('<br>', $errors->all()); ?>
+
+                </div>
+        <?php endif; ?>
+ 
+        <?php echo Form::model($page, array('method' => 'put', 'route' => array('admin.pages.update', $page->id))); ?>
+
+ 
+                <div class="control-group">
+                        <?php echo Form::label('title', 'Title'); ?>
+
+                        <div class="controls">
+                                <?php echo Form::text('title'); ?>
+
+                        </div>
+                </div>
+ 
+                <div class="control-group">
+                        <?php echo Form::label('body', 'Content'); ?>
+
+                        <div class="controls">
+                                <?php echo Form::textarea('body'); ?>
+
+                        </div>
+                </div>
+ 
+                <div class="form-actions">
+                        <?php echo Form::submit('Save', array('class' => 'btn btn-success btn-save btn-large')); ?>
+
+                        <a href="<?php echo URL::route('admin.pages.index'); ?>" class="btn btn-large">Cancel</a>
+                </div>
+ 
+        <?php echo Form::close(); ?>
+
+ 
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('admin._layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

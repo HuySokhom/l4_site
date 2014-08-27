@@ -1,0 +1,22 @@
+<?php echo $__env->make('site::_partials/header', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+ 
+<article>
+    <h3><?php echo $entry->title; ?></h3>
+    <h5>Published at <?php echo $entry->created_at; ?> &bull; by <?php echo $entry->author->email; ?></h5>
+    <?php echo $entry->body; ?>
+
+ 
+    <hr>
+ 
+    <?php if($entry->image): ?>
+        <figure><img src="<?php echo Image::resize($entry->image, 800, 600); ?>" alt=""></figure>
+        <hr>
+    <?php endif; ?>
+ 
+    <a href="<?php echo route('article.list'); ?>">&laquo; Back to articles</a>
+</article>
+<input type="hidden" id="article_id" name="article_id" value="<?php echo $entry->id; ?>">
+
+<?php echo $__env->make('site::comments', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+ 
+<?php echo $__env->make('site::_partials/footer', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

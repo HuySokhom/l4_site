@@ -24,11 +24,11 @@ class CommentController extends \BaseController
 	 * @return Response
 	 */
 	public function store()
-	{	
+	{	 
 		$new_comment = [
 			'author' => htmlentities(Input::get('author')),
 			'text' => htmlentities(Input::get('text')),
-			'article_id' => htmlentities(Input::get('article_id'))
+			'article_id' => htmlentities(Article::where('slug', Input::get('article_slug'))->first()->id)
 		];
 
 		if(in_array('', $new_comment))

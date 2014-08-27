@@ -1,0 +1,8 @@
+<nav id="nav">
+    <ul>
+        <li class="<?php echo (Route::is('home')) ? 'active' : null; ?>"><a href="<?php echo route('home'); ?>">Home</a></li>
+        <li class="<?php echo (Route::is('page') and Request::segment(1) == 'about-us') ? 'active' : null; ?>"><a href="<?php echo route('page', 'about-us'); ?>">About us</a></li>
+        <li class="<?php echo (Route::is('article.list') or Route::is('article')) ? 'active' : null; ?>"><a href="<?php echo route('article.list'); ?>">Blog</a></li>
+        <li class="<?php echo (Route::is('page') and Request::segment(1) == 'contact') ? 'active' : null; ?>"><a href="<?php echo route('page', 'contact'); ?>">Contact</a></li>
+    </ul>
+</nav>

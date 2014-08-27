@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Laravel 4 Tutorial</title>
+    <?php echo HTML::style('site/assets/css/main.css'); ?>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+    <?php echo HTML::script('site/assets/js/angular/app.js'); ?>
+
+</head>
+<body>
+<div id="layout">
+    <header>
+        <h1><a href="<?php echo URL::route('home'); ?>">Laravel 4 Tutorial</a></h1>
+        <?php echo $__env->make('site::_partials.navigation', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    </header>
+ 
+    <hr>

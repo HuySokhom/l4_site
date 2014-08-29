@@ -53,9 +53,9 @@ class CommentController extends \BaseController
 	 * @return Response
 	 */
 	public function update($id)
-    {
+    {    	
     	// Check if the comment exist.
-        if(!$comment = Comment::find($id))
+    	if(!$comment = Comment::find($id))
         {
         	\App::abort(404, "Fail to update. Comment doesn't exist.");
         }
@@ -74,7 +74,7 @@ class CommentController extends \BaseController
 	 * @return Response
 	 */
 	public function destroy($id)
-	{
+	{			
 		// Check if the comment exist.
 		if(!$comment = Comment::find($id))
 		{			

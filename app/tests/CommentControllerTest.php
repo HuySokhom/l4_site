@@ -3,6 +3,7 @@
 use \App\Controllers\Admin\CommentController;
 use \App\Controllers\Admin\ArticlesController;
 use \App\Models\Comment;
+use \App\Models\Article;
 
 class CommentControllerTest extends TestCase
 {	
@@ -11,10 +12,10 @@ class CommentControllerTest extends TestCase
 	public function setUp()
     {
     	parent::setUp();
+		
+		$this->article_slug = 'first-post';
 
-    	$this->article_slug = 'third-post';
-
-        $this->fetch = new CommentController;
+		Artisan::call('app:seed');
     }
 
     /**
@@ -22,23 +23,24 @@ class CommentControllerTest extends TestCase
     */
     public function testIfArticleSlugIsInValidWhenLoadingComment()
     {
-	    $response = $this->call('GET', '/api/comments/' . $this->article_slug);
+    	$error_article_slug = 'unavailable-post';
+	    $response = $this->call('GET', '/api/comments/' . $error_article_slug);
     }
 
     public function testIfArticleSlugIsValidWhenLoadingComment()
-    {
-        $response = $this->call('GET', '/api/comments/' . $this->article_slug);
+    {    
+        $response = $this->call('GET', '/api/comments/' . $this->article_slug);  
     }
 
     public function testArticleShouldReturnCorrectNumberOfComment()
-    {            
+    {            	
         // Loading comments.
         $response = $this->call('GET', '/api/comments/' . $this->article_slug);
-        $comments = json_decode(json_encode($response), true)['original']; 
+        $comments = $response->original->toArray(); 
 
         // Expected comments.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $Expected_comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
+        $article_id = Article::where('slug', $this->article_slug)->first()->id;
+        $Expected_comments = Comment::where('article_id', $article_id)->get()->toArray();
 
         // Assert if both comments are the same.
     	$this->assertSame( 
@@ -55,7 +57,7 @@ class CommentControllerTest extends TestCase
         $error_new_comment = [
             'author' => '',
             'text'  => '',
-            'article_slug' => $this->article_slug
+            'article_slug' => 'first-post'
         ];
 
     	$this->call('POST', '/api/comments', $error_new_comment);
@@ -66,7 +68,7 @@ class CommentControllerTest extends TestCase
         $new_comment = [
             'author' => 'author',
             'text'  => 'Testing comment',
-            'article_slug' => $this->article_slug
+            'article_slug' => 'first-post'
         ];
 
         $this->call('POST', '/api/comments', $new_comment);
@@ -81,37 +83,22 @@ class CommentControllerTest extends TestCase
         ];
 
         $response = $this->call('POST', '/api/comments', $new_comment);
-        $comments = json_decode(json_encode($response), true)['original'];
+        $comments = $response->original->toArray();
         
     	$this->assertTrue($comments['author'] === htmlentities($new_comment['author']), 'Author');
     	$this->assertTrue($comments['text'] === htmlentities($new_comment['text']), 'Text');
     }
 
-    public function testHtmlTagIsNotStrippedWhenCreateComment()
-    {   
-        $new_comment = [
-            'author' => '<b>bonnak</b>',
-            'text'  => '<script> hi there </script>',
-            'article_slug' => $this->article_slug
-        ];
-
-        $response = $this->call('POST', '/api/comments', $new_comment);
-        $comments = json_decode(json_encode($response), true)['original'];
-        
-        $this->assertFalse($comments['author'] === htmlentities($new_comment['author']), 'Author');
-        $this->assertFalse($comments['text'] === htmlentities($new_comment['text']), 'Text');
-    }
-
     public function testIfDeletedCommentIdIsValid()
-    {
+    {    	
         // Load comments.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
+        $article_id = Article::where('slug', $this->article_slug)->first()->id;
+        $comments = Comment::where('article_id', $article_id)->get()->toArray();
 
         // Test delete command.
-        $response = $this->call('DELETE', '/api/comments/' .  $comments[count($comments) - 1]['id']);
-        $deleted_comments = json_decode(json_encode($response), true)['original'];        
-        $this->assertTrue($deleted_comments['id'] === $comments[count($comments) - 1]['id'], 'Test if deleted comment is right.');
+        $response = $this->call(
+        		'DELETE', '/api/comments/' .  $comments[count($comments) - 1]['id']
+        );
     }
 
     /**
@@ -119,28 +106,27 @@ class CommentControllerTest extends TestCase
     */
     public function testIfDeletedCommentIdIsNotValid()
     {
-        // Load comments.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
-
+    	$unexpected_comment_id = 1000;
         // Test delete command.
-        $response = $this->call('DELETE', '/api/comments/' .  $comments[count($comments) - 1]['id']);
-        $deleted_comments = json_decode(json_encode($response), true)['original'];        
-        $this->assertFalse($deleted_comments['id'] === $comments[count($comments) - 1]['id'], 'Test if deleted comment is wrong.');
+        $response = $this->call(
+        		'DELETE', '/api/comments/' . $unexpected_comment_id
+        );
     }
 
     public function testAtferDeleteCommentTotalRecordShouldBeLessthanItWas()
-    {
+    {    	
          // Load comments before deleted.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $before_deleted_comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
+        $article_id = Article::where('slug', $this->article_slug)->first()->id;
+        $before_deleted_comments = Comment::where('article_id', $article_id)->get()->toArray();
 
         // Test delete command.
-        $response = $this->call('DELETE', '/api/comments/' .  $before_deleted_comments[count($before_deleted_comments) - 1]['id']);
+        $response = $this->call(
+        		'DELETE', '/api/comments/' .  $before_deleted_comments[count($before_deleted_comments) - 1]['id']
+        );
         
         // Load comments after deleted.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $after_delete_comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
+        $article_id = Article::where('slug', $this->article_slug)->first()->id;
+        $after_delete_comments = Comment::where('article_id', $article_id)->get()->toArray();
 
         // Assert count should be less than it was.
         $this->assertCount(count($before_deleted_comments) - 1, $after_delete_comments, 'Number of comments should be less than it was');
@@ -149,8 +135,8 @@ class CommentControllerTest extends TestCase
     public function testIfUpdatedCommentIdIsValid()
     {
         // Load comments.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
+        $article_id = Article::where('slug', $this->article_slug)->first()->id;
+        $comments = Comment::where('article_id', $article_id)->get()->toArray();
 
         $Expected_update_comment = [
             'id' => $comments[count($comments) - 1]['id'],
@@ -159,8 +145,6 @@ class CommentControllerTest extends TestCase
 
         // Test update command.
         $response = $this->call('PATCH', '/api/comments/' . $Expected_update_comment['id'] , $Expected_update_comment);
-        $updated_comments = json_decode(json_encode($response), true)['original'];        
-        $this->assertSame($updated_comments['text'], $Expected_update_comment['text'], 'Test if updated comment is valid.');
     }
 
     /**
@@ -168,26 +152,22 @@ class CommentControllerTest extends TestCase
     */
     public function testIfUpdatedCommentIdIsInValid()
     {
-        // Load comments.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
+    	$updated_comment_id = 1000;
 
         $Expected_update_comment = [
-            'id' => $comments[count($comments) - 1]['id'],
+            'id' => $updated_comment_id ,
             'text' => 'Test updating comment.'
         ];
 
         // Test update command.
         $response = $this->call('PATCH', '/api/comments/' . $Expected_update_comment['id'] , $Expected_update_comment);
-        $updated_comments = json_decode(json_encode($response), true)['original'];        
-        $this->assertNotSame($updated_comments['text'], $Expected_update_comment['text'], 'Test if updated comment is invalid.');
     }
 
     public function testDataShouldBeMatchAfterUpdated()
     {
         // Load comments.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
+        $article_id = Article::where('slug', $this->article_slug)->first()->id;
+        $comments = Comment::where('article_id', $article_id)->get()->toArray();
 
         $Expected_update_comment = [
             'id' => $comments[count($comments) - 1]['id'],
@@ -195,16 +175,20 @@ class CommentControllerTest extends TestCase
         ];
 
         // Test update command.
-        $response = $this->call('PATCH', '/api/comments/' . $Expected_update_comment['id'] , $Expected_update_comment);
-        $updated_comments = json_decode(json_encode($response), true)['original'];         
+        $response = $this->call(
+        		'PATCH', '/api/comments/' . $Expected_update_comment['id'] , 
+        		$Expected_update_comment
+		);
+        
+        $updated_comments = $response->original->toArray();         
     	$this->assertSame($updated_comments['text'], $Expected_update_comment['text'] , 'Test if updated comment text is match.');
     }
 
     public function testHtmlTagIsStrippedWhenUpdateComment()
     {
         // Load comments.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
+        $article_id = Article::where('slug', $this->article_slug)->first()->id;
+        $comments = Comment::where('article_id', $article_id)->get()->toArray();
 
         $Expected_update_comment = [
             'id' => $comments[count($comments) - 1]['id'],
@@ -212,25 +196,12 @@ class CommentControllerTest extends TestCase
         ];
 
         // Test update command.
-        $response = $this->call('PATCH', '/api/comments/' . $Expected_update_comment['id'] , $Expected_update_comment);
-        $updated_comments = json_decode(json_encode($response), true)['original']; 
+        $response = $this->call(
+        		'PATCH', '/api/comments/' . $Expected_update_comment['id'] , 
+        		$Expected_update_comment
+		);
+        
+        $updated_comments = $response->original->toArray(); 
     	$this->assertTrue($updated_comments['text'] === htmlentities($Expected_update_comment['text']), 'Html tag is stripped when update comment.');
-    }
-
-    public function testHtmlTagIsNotStrippedWhenUpdateComment()
-    {
-        // Load comments.
-        $article_id = json_decode(json_encode(Article::where('slug', $this->article_slug)->first()), true)['id'];
-        $comments = json_decode(json_encode(Comment::where('article_id', $article_id)->get()), true);
-
-        $Expected_update_comment = [
-            'id' => $comments[count($comments) - 1]['id'],
-            'text' => '<script>Test updating comment, data should be match</script>.'
-        ];
-
-        // Test update command.
-        $response = $this->call('PATCH', '/api/comments/' . $Expected_update_comment['id'] , $Expected_update_comment);
-        $updated_comments = json_decode(json_encode($response), true)['original']; 
-        $this->assertFalse($updated_comments['text'] === htmlentities($Expected_update_comment['text']), 'Html tag is not stripped when update comment.');
     }
 }

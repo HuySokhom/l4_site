@@ -23,3 +23,20 @@ Documentation for the entire framework can be found on the [Laravel website](htt
 ### License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+
+
+
+
+____________________________________________________________________
+must be php 5.4 
+
+migrate table into database
+  # php artisan migrate
+  # php artisan app:seed  => ( create table )
+  # php artisan serve
+  
+
+
+
+
+
